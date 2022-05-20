@@ -156,6 +156,11 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     print(bloodflow_checkmarks)
     bf = list_of_subjects[int(value)-1].subject_data
     fig3 = px.line(bf, x="Time (s)", y="Blood Flow (ml/s)")
+    
+     #Mean value 
+    avg = bf.mean() #calculate average values for all columns of subject data
+    x = [0, 480] #set boundaries for x values (required later to depict mean value)
+    y = avg[data_names[1]] #mean value of Blood Flow (ml/s)
 
 
     return fig3
