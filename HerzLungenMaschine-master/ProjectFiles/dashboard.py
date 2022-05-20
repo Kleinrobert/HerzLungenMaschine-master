@@ -116,6 +116,29 @@ def update_figure(value, algorithm_checkmarks):
     fig2 = px.line(ts, x="Time (s)", y = data_names[2])
     
     ### Aufgabe 2: Min / Max ###
+    
+     grp = ts.agg(['max', 'min', 'idxmin', 'idxmax'])
+
+    #print(max_values)
+    #print(min_values)
+
+    
+    if algorithm_checkmarks is not None: #Checking if it is not None, otherwise it would iterate over NoneType Object = not possible
+
+        if 'min' in algorithm_checkmarks:
+
+            fig0.add_trace(go.Scatter(x=[grp.loc['idxmin', data_names[0]]], y=[grp.loc['min', data_names[0]]], mode ='markers', name='Mininum', marker_color='black'))
+            fig1.add_trace(go.Scatter(x=[grp.loc['idxmin', data_names[1]]], y=[grp.loc['min', data_names[1]]], mode ='markers', name='Mininum', marker_color='black'))
+            fig2.add_trace(go.Scatter(x=[grp.loc['idxmin', data_names[2]]], y=[grp.loc['min', data_names[2]]], mode ='markers', name='Mininum', marker_color='black'))
+
+        
+        if 'max' in algorithm_checkmarks:
+
+            fig0.add_trace(go.Scatter(x=[grp.loc['idxmax', data_names[0]]], y=[grp.loc['max', data_names[0]]], mode ='markers', name='Maximum', marker_color='red'))
+            fig1.add_trace(go.Scatter(x=[grp.loc['idxmax', data_names[1]]], y=[grp.loc['max', data_names[1]]], mode ='markers', name='Maximum', marker_color='red'))
+            fig2.add_trace(go.Scatter(x=[grp.loc['idxmax', data_names[2]]], y=[grp.loc['max', data_names[2]]], mode ='markers', name='Maximum', marker_color='red'))
+
+    
 
     return fig0, fig1, fig2 
 
