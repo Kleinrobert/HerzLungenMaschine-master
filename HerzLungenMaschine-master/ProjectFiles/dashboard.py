@@ -50,11 +50,21 @@ fig1 = px.line(df, x="Time (s)", y = "Blood Flow (ml/s)")
 fig2 = px.line(df, x="Time (s)", y = "Temp (C)")
 fig3 = px.line(df, x="Time (s)", y = "Blood Flow (ml/s)")
 
+#layout
+colors = {
+    'background': '#faebd7',
+    'text': '#7FDBFF'
+}
+
+
+
 app.layout = html.Div(children=[
     html.H1(children='Cardiopulmonary Bypass Dashboard'),
 
     html.Div(children='''
-        Hier könnten Informationen zum Patienten stehen....
+        Gesamte Beobachtungsdauer: 481 Sekunden;
+        Anzahl Probanden: 3;
+        Herzlungenmaschine Modell: Stöckert S5 
     '''),
 
     dcc.Checklist(
@@ -67,7 +77,8 @@ app.layout = html.Div(children=[
         dcc.Dropdown(options = subj_numbers, placeholder='Select a subject', value='1', id='subject-dropdown'),
     html.Div(id='dd-output-container')
     ],
-        style={"width": "15%"}
+        style={"width": "15%", "color": "#483d8b"}
+        
     ),
 
     dcc.Graph(
@@ -118,27 +129,30 @@ def update_figure(value, algorithm_checkmarks):
     ### Aufgabe 2: Min / Max ###
     
      grp = ts.agg(['max', 'min', 'idxmin', 'idxmax'])
-
-    #print(max_values)
-    #print(min_values)
-
-    
-    if algorithm_checkmarks is not None: #Checking if it is not None, otherwise it would iterate over NoneType Object = not possible
-
-        if 'min' in algorithm_checkmarks:
-
-            fig0.add_trace(go.Scatter(x=[grp.loc['idxmin', data_names[0]]], y=[grp.loc['min', data_names[0]]], mode ='markers', name='Mininum', marker_color='black'))
-            fig1.add_trace(go.Scatter(x=[grp.loc['idxmin', data_names[1]]], y=[grp.loc['min', data_names[1]]], mode ='markers', name='Mininum', marker_color='black'))
-            fig2.add_trace(go.Scatter(x=[grp.loc['idxmin', data_names[2]]], y=[grp.loc['min', data_names[2]]], mode ='markers', name='Mininum', marker_color='black'))
-
         
-        if 'max' in algorithm_checkmarks:
-
-            fig0.add_trace(go.Scatter(x=[grp.loc['idxmax', data_names[0]]], y=[grp.loc['max', data_names[0]]], mode ='markers', name='Maximum', marker_color='red'))
-            fig1.add_trace(go.Scatter(x=[grp.loc['idxmax', data_names[1]]], y=[grp.loc['max', data_names[1]]], mode ='markers', name='Maximum', marker_color='red'))
-            fig2.add_trace(go.Scatter(x=[grp.loc['idxmax', data_names[2]]], y=[grp.loc['max', data_names[2]]], mode ='markers', name='Maximum', marker_color='red'))
-
+    print(grp)
     
+
+
+    if 'max' in algorithm_checkmarks:
+        fig0.add_trace(go.Scatter(x= [grp.loc['idxmax', data_names[0]]], y= [grp.loc['max', data_names[0]]],
+                    mode='markers', name='max', marker_color= 'red'))
+        fig1.add_trace(go.Scatter(x= [grp.loc['idxmax', data_names[1]]], y= [grp.loc['max', data_names[1]]],
+                    mode='markers', name='max', marker_color= 'red'))
+        fig2.add_trace(go.Scatter(x= [grp.loc['idxmax', data_names[2]]], y= [grp.loc['max', data_names[2]]],
+                    mode='markers', name='max', marker_color= 'red'))
+    
+    if 'min' in algorithm_checkmarks:
+        logging.info('Subject initialized')
+        fig0.add_trace(go.Scatter(x= [grp.loc['idxmin', data_names[0]]], y= [grp.loc['min', data_names[0]]],
+                    mode='markers', name='min', marker_color= 'green'))
+        fig1.add_trace(go.Scatter(x= [grp.loc['idxmin', data_names[1]]], y= [grp.loc['min', data_names[1]]],
+                    mode='markers', name='min', marker_color= 'green'))
+        fig2.add_trace(go.Scatter(x= [grp.loc['idxmin', data_names[2]]], y= [grp.loc['min', data_names[2]]],
+                    mode='markers', name='min', marker_color= 'green'))
+    
+
+  
 
     return fig0, fig1, fig2 
 
@@ -162,6 +176,17 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     x = [0, 480] #set boundaries for x values (required later to depict mean value)
     y = avg[data_names[1]] #mean value of Blood Flow (ml/s)
 
+    
+    
+    #Aufgabe 3
+    #Mittelwert
+    
+    avg = bf.mean()
+    x = [0, 480]
+    y = avg.loc['Blood Flow (ml/s)']
+    fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines', name = 'Mittelwert'))
+    
+    
 
     return fig3
 
