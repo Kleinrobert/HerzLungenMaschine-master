@@ -187,8 +187,23 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines', name = 'Mittelwert'))
     
     
+    
+    
+    
+    #15% Intervalle
+    
+    
+    y_oben = (avg.loc['Blood Flow (ml/s)'])*1.15
+    fig3.add_trace(go.Scatter(x = x, y= [y_oben,y_oben], mode = 'lines', marker_color = 'blue', name = 'obere Grenze'))
+    
+    y_unten = (avg.loc['Blood Flow (ml/s)'])*0.8
+    fig3.add_trace(go.Scatter(x = x, y= [y_unten, y_unten], mode = 'lines', marker_color = 'blue', name = 'untere Grenze'))
+    
+    
 
     return fig3
+
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
