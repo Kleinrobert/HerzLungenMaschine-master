@@ -196,6 +196,8 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     fig3 = px.line(bf, x="Time (s)", y="Blood Flow (ml/s)")
 
     #Aufgabe 2
+    
+    
     if bloodflow_checkmarks is not None:
         if bloodflow_checkmarks == ["SMA"]:
             bf["Blood Flow (ml/s) - SMA"] = ut.calculate_SMA(bf["Blood Flow (ml/s)"],5) 
