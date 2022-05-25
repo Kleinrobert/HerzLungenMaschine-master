@@ -68,6 +68,7 @@ colors = {
     'text': '#7FDBFF'
 }
 
+
 app.layout = html.Div(style={'backgroundColor': colors['background']},children=[
     html.H1(children='Cardiopulmonary Bypass Dashboard', style={
             'textAlign': 'center',
@@ -154,9 +155,7 @@ def update_figure(value, algorithm_checkmarks):
     
     print(grp)
     
-    
-    
-   
+  
    
     if 'max' in algorithm_checkmarks:
         fig0.add_trace(go.Scatter(x= [grp.loc['idxmax', data_names[0]]], y= [grp.loc['max', data_names[0]]],
@@ -210,7 +209,10 @@ def bloodflow_figure(value, bloodflow_checkmarks):
 
 
     #Aufgabe 3
+    
     #Mittelwert
+    
+    
     avg = bf.mean()
     x = [0, 480]
     y = avg.loc['Blood Flow (ml/s)']
@@ -218,7 +220,9 @@ def bloodflow_figure(value, bloodflow_checkmarks):
 
 
 
-    #15% Intervalle,
+    #15% Intervalle
+    
+    
     y_oben = (avg.loc['Blood Flow (ml/s)'])*1.15
     fig3.add_trace(go.Scatter(x = x, y= [y_oben,y_oben], mode = 'lines', marker_color = 'blue', name = 'obere Grenze'))
     
